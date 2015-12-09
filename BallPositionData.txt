@@ -1,0 +1,132 @@
+Ball0 hit Ball2 
+Ball0 collisions = 1 
+Ball2 collisions = 1 
+Ball0 local Translation: (0.0, 5.0, -3.0) 
+Ball0 direction: (0.0, 0.0, 1.0) 
+Ball2 local Translation: (8.0, 5.0, -3.0) 
+Ball2 direction: (0.0, 0.0, 1.0) 
+Ball0 hit Ball1 
+Ball0 collisions = 2 
+Ball1 collisions = 1 
+Ball0 local Translation: (0.0, 5.0, -3.0) 
+Ball0 direction: (0.0, 0.0, 1.0) 
+Ball1 local Translation: (4.0, 5.0, -3.0) 
+Ball1 direction: (0.0, 0.0, 1.0) 
+Ball1 hit Ball2 
+Ball1 collisions = 2 
+Ball2 collisions = 2 
+Ball1 local Translation: (4.0, 5.0, -3.0) 
+Ball1 direction: (0.0, 0.0, 1.0) 
+Ball2 local Translation: (8.0, 5.0, -3.0) 
+Ball2 direction: (0.0, 0.0, 1.0) 
+Ball0 hit Ball1 
+Ball0 collisions = 3 
+Ball1 collisions = 3 
+Ball0 local Translation: (0.0, 5.0, -3.0) 
+Ball0 direction: (0.0, 0.0, 1.0) 
+Ball1 local Translation: (4.0, 5.0, -3.0) 
+Ball1 direction: (0.0, 0.0, 1.0) 
+Ball1 hit Ball2 
+Ball1 collisions = 4 
+Ball2 collisions = 3 
+Ball1 local Translation: (4.0, 5.0, -3.0) 
+Ball1 direction: (0.0, 0.0, 1.0) 
+Ball2 local Translation: (8.0, 5.0, -3.0) 
+Ball2 direction: (0.0, 0.0, 1.0) 
+Ball0 hit Ball1 
+Ball0 collisions = 4 
+Ball1 collisions = 5 
+Ball0 local Translation: (0.0, 5.0, -3.0) 
+Ball0 direction: (0.0, 0.0, 1.0) 
+Ball1 local Translation: (4.0, 5.0, -3.0) 
+Ball1 direction: (0.0, 0.0, 1.0) 
+Ball1 hit Ball2 
+Ball1 collisions = 6 
+Ball2 collisions = 4 
+Ball1 local Translation: (4.0, 5.0, -3.0) 
+Ball1 direction: (0.0, 0.0, 1.0) 
+Ball2 local Translation: (8.0, 5.0, -3.0) 
+Ball2 direction: (0.0, 0.0, 1.0) 
+Ball0 hit Ball1 
+Ball0 collisions = 5 
+Ball1 collisions = 7 
+Ball0 local Translation: (0.0, 5.0, -3.0) 
+Ball0 direction: (0.0, 0.0, 1.0) 
+Ball1 local Translation: (4.0, 5.0, -3.0) 
+Ball1 direction: (0.0, 0.0, 1.0) 
+Ball1 hit Ball2 
+Ball1 collisions = 8 
+Ball2 collisions = 5 
+Ball1 local Translation: (4.0, 5.0, -3.0) 
+Ball1 direction: (0.0, 0.0, 1.0) 
+Ball2 local Translation: (8.0, 5.0, -3.0) 
+Ball2 direction: (0.0, 0.0, 1.0) 
+Ball0 hit Ball1 
+Ball0 collisions = 6 
+Ball1 collisions = 9 
+Ball0 local Translation: (-5.054458, 5.2014503, -3.2231145) 
+Ball0 direction: (0.0, 0.0, 1.0) 
+Ball1 local Translation: (4.2805977, 5.2014503, -2.922275) 
+Ball1 direction: (-5.5275623E-10, -7.711958E-10, 1.0) 
+Ball1 hit Ball2 
+Ball1 collisions = 10 
+Ball2 collisions = 6 
+Ball1 local Translation: (4.2805977, 5.2014503, -2.922275) 
+Ball1 direction: (-5.5275623E-10, -7.711958E-10, 1.0) 
+Ball2 local Translation: (13.611113, 5.201457, -2.8201697) 
+Ball2 direction: (2.7381592E-15, -2.721782E-9, 1.0) 
+Ball2 hit WestWall 
+Ball2 collisions = 7 
+Local Translation: (116.94199, 5.249987, 0.4914813) 
+Direction: (1.9677698E-13, -5.2174283E-8, 1.0) 
+Ball0 hit EastWall 
+Ball0 collisions = 7 
+Local Translation: (-116.44032, 5.248672, -8.139912) 
+Direction: (-4.769813E-13, 4.987904E-9, 1.0) 
+Ball1 hit Ball2 
+Ball1 collisions = 11 
+Ball2 collisions = 8 
+Ball1 local Translation: (14.447689, 5.2499995, -0.51826465) 
+Ball1 direction: (-2.5486472E-8, -2.3559585E-8, 1.0) 
+Ball2 local Translation: (22.014748, 5.2499266, 3.4583104) 
+Ball2 direction: (2.6020187E-5, -8.916357E-8, 1.0) 
+Ball0 hit Ball1 
+Ball0 collisions = 8 
+Ball1 collisions = 12 
+Ball0 local Translation: (-17.145412, 5.249993, -12.426859) 
+Ball0 direction: (-3.746277E-5, 9.4513986E-8, 1.0) 
+Ball1 local Translation: (-11.363056, 7.5887628, -16.110807) 
+Ball1 direction: (3.3407466E-6, 1.3223766E-7, 1.0) 
+Ball1 hit NorthWall 
+Ball1 collisions = 13 
+Local Translation: (42.87469, 40.45268, -117.01186) 
+Direction: (1.6910193E-5, 1.91228E-6, 1.0) 
+Ball2 hit SouthWall 
+Ball2 collisions = 9 
+Local Translation: (-11.690142, 5.2499905, 115.504974) 
+Direction: (9.050427E-5, 4.1715102E-9, 1.0) 
+Ball2 hit SouthWall 
+Ball2 collisions = 10 
+Local Translation: (-11.852853, 5.2499948, 116.02747) 
+Direction: (9.080642E-5, 6.615491E-9, 1.0) 
+Ball2 hit SouthWall 
+Ball2 collisions = 11 
+Local Translation: (-12.019522, 5.249999, 114.491516) 
+Direction: (9.2394155E-5, -1.827484E-7, 1.0) 
+Ball1 hit WestWall 
+Ball1 collisions = 14 
+Local Translation: (115.71655, 51.380413, 23.585835) 
+Direction: (-7.085408E-5, 3.8547572E-5, 1.0) 
+Ball0 hit SouthWall 
+Ball0 collisions = 9 
+Local Translation: (-94.46811, 5.2499204, 115.74519) 
+Direction: (-1.6036157E-4, 6.9463965E-7, 1.0) 
+Ball1 hit SouthWall 
+Ball1 collisions = 15 
+Local Translation: (65.38475, 36.566288, 117.04763) 
+Direction: (-8.9359164E-5, 6.3103565E-5, 1.0) 
+Ball0 hit EastWall 
+Ball0 collisions = 10 
+Local Translation: (-115.56523, 5.249971, 79.191025) 
+Direction: (-1.8268322E-4, -5.2658047E-6, 1.0) 
+
