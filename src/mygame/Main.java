@@ -126,7 +126,8 @@ public class Main extends SimpleApplication {
         //Add hit counter to upper left, below title
         hitText = new BitmapText(myFont, true);
         hitText.setText("Balls Hit = " + PhysicsTestHelper.ballHitCounter +
-              "\nCubes Hit = " + PhysicsTestHelper.cubeHitCounter);
+              "\nCubes Hit = " + PhysicsTestHelper.cubeHitCounter+
+              "\nToruses Hit = " + PhysicsTestHelper.torusHitCounter);
         hitText.setColor(ColorRGBA.Orange);
         hitText.setSize(guiFont.getCharSet().getRenderedSize());
         
@@ -141,7 +142,7 @@ public class Main extends SimpleApplication {
         btmpBulletsFired.setSize(guiFont.getCharSet().getRenderedSize());
         
         btmpBulletsFired.setLocalTranslation(1f , settings.getHeight() - 
-                hudText.getLineHeight() - hitText.getLineHeight() * 2 -
+                hudText.getLineHeight() - hitText.getLineHeight() * 5 -
                 btmpBulletsFired.getLineHeight(), 0f);
         guiNode.attachChild(btmpBulletsFired);
         
@@ -203,7 +204,8 @@ public class Main extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         //TODO: add update code
       hitText.setText("Balls Hit = " + PhysicsTestHelper.ballHitCounter +
-              "\nCubes Hit = " + PhysicsTestHelper.cubeHitCounter);
+              "\nCubes Hit = " + PhysicsTestHelper.cubeHitCounter+
+              "\nToruses Hit = " + PhysicsTestHelper.torusHitCounter);
       strBulletsFired = "Bullets Fired = " + PhysicsTestHelper.bulletsFired;
       btmpBulletsFired.setText(strBulletsFired);  
     }

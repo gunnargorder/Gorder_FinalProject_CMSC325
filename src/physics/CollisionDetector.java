@@ -63,6 +63,17 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
                         }
                     }
                     
+                    Iterator itTor = PhysicsTestHelper.toruses.iterator();
+                    while(itTor.hasNext()){
+                        Spatial torus = (Spatial) itTor.next();
+                        if((nodeA == torus) || (nodeB == torus)){
+                            PhysicsTestHelper.torusHitCounter++;
+                            PhysicsTestHelper.space.remove(torus);                            
+                            torus.removeFromParent();
+                            itTor.remove();                
+                        }
+                    }
+                    
                     PhysicsTestHelper.space.remove(bullet);
                     bullet.removeFromParent();
                     itB.remove();                    
@@ -73,7 +84,10 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
             } 
             if(PhysicsTestHelper.cubes.size() < 3){
                 PhysicsTestHelper.addCube();
-            }            
+            }    
+            if(PhysicsTestHelper.toruses.size() < 3){
+                PhysicsTestHelper.addTorus();
+            }        
          }
             
             

@@ -58,10 +58,15 @@ public class PhysicsTestHelper {
     public static int ballnum = 0;
     public static int ballHitCounter = 0;
     public static int bulletsFired = 0;
-    public static int cubenum = 0;
-    public static int cubeHitCounter = 0;
     
+    public static int cubenum = 0;
+    public static int cubeHitCounter = 0;    
     public static List<Spatial> cubes = new ArrayList<Spatial>();
+    
+    public static int torusnum = 0;
+    public static int torusHitCounter = 0;    
+    public static List<Spatial> toruses = new ArrayList<Spatial>();
+    
     
     public static List<Spatial> getBalls(){
         return balls;
@@ -181,8 +186,10 @@ public class PhysicsTestHelper {
         for (int i = 0; i < 3; i++) {   
                 ballnum = i;
                 cubenum = i;
+                torusnum = i;
                 BallTarget ball = new BallTarget(rootNode, assetManager, space, ballnum);
                 CubeTarget cube = new CubeTarget(rootNode, assetManager, space, cubenum);
+                TorusTarget torus = new TorusTarget(rootNode, assetManager, space, torusnum);
         }
         
 
@@ -235,7 +242,12 @@ public class PhysicsTestHelper {
     }
     public static void addCube(){
         cubenum++;
-        CubeTarget ball = new CubeTarget(rootNode, assetManager, space, ballnum);
+        CubeTarget ball = new CubeTarget(rootNode, assetManager, space, cubenum);
+        
+    }
+    public static void addTorus(){
+        torusnum++;
+        TorusTarget torus = new TorusTarget(rootNode, assetManager, space, torusnum);
         
     }
 }
