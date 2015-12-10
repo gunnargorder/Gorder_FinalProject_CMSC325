@@ -158,7 +158,7 @@ public class Main extends SimpleApplication {
     }
     
     private void createAICharacter() {
-        for(int i=0; i < 3 ; i++){
+       
         // Load model, attach to character node
        Node sinbad = (Node) assetManager.loadModel("Models/Jaime/Jaime.j3o");
         
@@ -181,11 +181,6 @@ public class Main extends SimpleApplication {
         g.setModelBound(new BoundingSphere(5f, Vector3f.ZERO));
         g.updateModelBound();
         g.setMaterial(lineMat);
-        Random rand = new Random();
-                float x = rand.nextFloat()*100 - 50;
-                float y = 2;
-                float z = rand.nextFloat()*100 - 50;
-        sinbad.setLocalTranslation(x, y, z);
         camNode.attachChild(g);
         camNode.addControl(new SoundEmitterControl());
         getFlyByCamera().setMoveSpeed(45);
@@ -197,7 +192,7 @@ public class Main extends SimpleApplication {
         //sinbad.getControl(AIControl.class).setState(AIControl.State.Follow);
         sinbad.getControl(AIControl.class).setTargetList(targets);
         //sinbad.getControl(AIControl.class).setTarget(camNode);
-        }
+        
     }
     
     
