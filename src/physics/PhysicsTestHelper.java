@@ -58,6 +58,10 @@ public class PhysicsTestHelper {
     public static int ballnum = 0;
     public static int ballHitCounter = 0;
     public static int bulletsFired = 0;
+    public static int cubenum = 0;
+    public static int cubeHitCounter = 0;
+    
+    public static List<Spatial> cubes = new ArrayList<Spatial>();
     
     public static List<Spatial> getBalls(){
         return balls;
@@ -81,8 +85,8 @@ public class PhysicsTestHelper {
         floorGeometry.setMaterial(material);
         floorGeometry.setLocalTranslation(0, 0, 0);
         floorGeometry.addControl(new RigidBodyControl(0));
-        floorGeometry.getControl(RigidBodyControl.class).setRestitution(0f);
-        floorGeometry.getControl(RigidBodyControl.class).setFriction(0f);
+        floorGeometry.getControl(RigidBodyControl.class).setRestitution(0.5f);
+        floorGeometry.getControl(RigidBodyControl.class).setFriction(0.1f);
         rootNode.attachChild(floorGeometry);
         space.add(floorGeometry);
         
@@ -176,8 +180,9 @@ public class PhysicsTestHelper {
         //Creates bouncing ball targets
         for (int i = 0; i < 3; i++) {   
                 ballnum = i;
+                cubenum = i;
                 BallTarget ball = new BallTarget(rootNode, assetManager, space, ballnum);
-            
+                CubeTarget cube = new CubeTarget(rootNode, assetManager, space, cubenum);
         }
         
 
@@ -194,7 +199,7 @@ public class PhysicsTestHelper {
         ActionListener actionListener = new ActionListener() {
 
             public void onAction(String name, boolean keyPressed, float tpf) {
-                Sphere bullet = new Sphere(20, 20, 1f, true, false);
+                Sphere bullet = new Sphere(20, 20, 0.25f, true, false);
                 bullet.setTextureMode(TextureMode.Projected);
                 Material mat2 = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
                 TextureKey key2 = new TextureKey("Textures/Sky/Bright/FullskiesBlueClear03.dds");
@@ -226,6 +231,11 @@ public class PhysicsTestHelper {
     public static void addBall(){
         ballnum++;
         BallTarget ball = new BallTarget(rootNode, assetManager, space, ballnum);
+        
+    }
+    public static void addCube(){
+        cubenum++;
+        CubeTarget ball = new CubeTarget(rootNode, assetManager, space, ballnum);
         
     }
 }

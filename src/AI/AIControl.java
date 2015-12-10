@@ -40,7 +40,7 @@ public class AIControl extends AbstractControl{
     private Spatial target;
     boolean forward = false, backward = false, leftRotate = false, rightRotate = false;
     private Vector3f walkDirection = new Vector3f(0, 0, 0);
-    private Vector3f viewDirection = new Vector3f(0, 0, 1);
+    private Vector3f viewDirection = new Vector3f(0, 1, 1);
     
     private List<Spatial> targetableObjects = new ArrayList<Spatial>();
     
@@ -195,9 +195,9 @@ public class AIControl extends AbstractControl{
             }
             
             if(debug){
-                Geometry line = makeDebugLine(ray);
-                sightLines[i++] = line;
-                ((Node)getSpatial().getParent()).attachChild(line);
+                //Geometry line = makeDebugLine(ray);
+               // sightLines[i++] = line;
+               // ((Node)getSpatial().getParent()).attachChild(line);
             }
         }
         return foundTarget;

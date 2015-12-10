@@ -26,6 +26,7 @@ import com.jme3.scene.control.CameraControl;
 import com.jme3.scene.shape.Box;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Update author: Gunnar Gorder
@@ -65,7 +66,7 @@ public class Main extends SimpleApplication {
         Node scene = setupWorld();
         
         setupCharacter(scene);
-        createAICharacter(PhysicsTestHelper.getBalls());
+        createAICharacter();
     }
     
     private Node setupWorld(){
@@ -124,7 +125,8 @@ public class Main extends SimpleApplication {
         
         //Add hit counter to upper left, below title
         hitText = new BitmapText(myFont, true);
-        hitText.setText("Hits = " + appStateThis.hitCount);
+        hitText.setText("Balls Hit = " + PhysicsTestHelper.ballHitCounter +
+              "\nCubes Hit = " + PhysicsTestHelper.cubeHitCounter);
         hitText.setColor(ColorRGBA.Orange);
         hitText.setSize(guiFont.getCharSet().getRenderedSize());
         
@@ -139,7 +141,7 @@ public class Main extends SimpleApplication {
         btmpBulletsFired.setSize(guiFont.getCharSet().getRenderedSize());
         
         btmpBulletsFired.setLocalTranslation(1f , settings.getHeight() - 
-                hudText.getLineHeight() - hitText.getLineHeight()-
+                hudText.getLineHeight() - hitText.getLineHeight() * 2 -
                 btmpBulletsFired.getLineHeight(), 0f);
         guiNode.attachChild(btmpBulletsFired);
         
@@ -155,11 +157,12 @@ public class Main extends SimpleApplication {
         return bulletAppState.getPhysicsSpace();
     }
     
-    private void createAICharacter(List<Spatial> targets) {
+    private void createAICharacter() {
+        for(int i=0; i < 3 ; i++){
         // Load model, attach to character node
        Node sinbad = (Node) assetManager.loadModel("Models/Jaime/Jaime.j3o");
         
-        sinbad.setLocalScale(1.50f);
+        sinbad.setLocalScale(2.0f);
         
         //Node mainPlayer = createPlayerCharacter();
         AICharacterControl physicsCharacter = new AICharacterControl(0.3f, 2.5f, 8f);
@@ -173,22 +176,28 @@ public class Main extends SimpleApplication {
         CameraNode camNode = new CameraNode("CamNode", cam);
         camNode.setControlDir(CameraControl.ControlDirection.CameraToSpatial);
         
-        Geometry g = new Geometry("", new Box(1,1,1));
+        Geometry g = new Geometry("", new Box(1,2,1));
         g.setName("Sinbad");
         g.setModelBound(new BoundingSphere(5f, Vector3f.ZERO));
         g.updateModelBound();
         g.setMaterial(lineMat);
+        Random rand = new Random();
+                float x = rand.nextFloat()*100 - 50;
+                float y = 2;
+                float z = rand.nextFloat()*100 - 50;
+        sinbad.setLocalTranslation(x, y, z);
         camNode.attachChild(g);
         camNode.addControl(new SoundEmitterControl());
-        getFlyByCamera().setMoveSpeed(25);
+        getFlyByCamera().setMoveSpeed(45);
         rootNode.attachChild(camNode);
-        //List<Spatial> targets = new ArrayList<Spatial>();
-        //targets.add(camNode);
+        List<Spatial> targets = new ArrayList<Spatial>();
+        targets.add(camNode);
         //targets.add(mainPlayer);
         
-        //jaime.getControl(AIControl.class).setState(AIControl.State.Follow);
+        //sinbad.getControl(AIControl.class).setState(AIControl.State.Follow);
         sinbad.getControl(AIControl.class).setTargetList(targets);
-        //jaime.getControl(AIControl.class).setTarget(camNode);
+        //sinbad.getControl(AIControl.class).setTarget(camNode);
+        }
     }
     
     
@@ -198,7 +207,8 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         //TODO: add update code
-      hitText.setText("Balls Hit = " + PhysicsTestHelper.ballHitCounter);
+      hitText.setText("Balls Hit = " + PhysicsTestHelper.ballHitCounter +
+              "\nCubes Hit = " + PhysicsTestHelper.cubeHitCounter);
       strBulletsFired = "Bullets Fired = " + PhysicsTestHelper.bulletsFired;
       btmpBulletsFired.setText(strBulletsFired);  
     }
