@@ -33,7 +33,7 @@ public class TorusTarget {
         Material torusMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
                 torusMaterial.setTexture("ColorMap", assetManager.loadTexture("Textures/Terrain/BrickWall/BrickWall.jpg"));
                 Torus torus = new Torus(20, 20, 1, 2);
-                String torusName = "Ball" + i;
+                String torusName = "Torus" + i;
                 Geometry torusGeometry = new Geometry(torusName, torus);
                 torusGeometry.setName(torusName);
                 torusGeometry.setMaterial(torusMaterial);

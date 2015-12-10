@@ -65,6 +65,12 @@ public class Main extends SimpleApplication {
         lineMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         Node scene = setupWorld();
         
+        CameraNode camNode = new CameraNode("CamNode", cam);
+        camNode.setControlDir(CameraControl.ControlDirection.CameraToSpatial);
+        camNode.addControl(new SoundEmitterControl());
+        getFlyByCamera().setMoveSpeed(45);
+        PhysicsTestHelper.camNode = camNode;
+        
         setupCharacter(scene);
         createAICharacter();
     }
@@ -127,7 +133,10 @@ public class Main extends SimpleApplication {
         hitText = new BitmapText(myFont, true);
         hitText.setText("Balls Hit = " + PhysicsTestHelper.ballHitCounter +
               "\nCubes Hit = " + PhysicsTestHelper.cubeHitCounter+
-              "\nToruses Hit = " + PhysicsTestHelper.torusHitCounter);
+              "\nToruses Hit = " + PhysicsTestHelper.torusHitCounter+
+              "\nDiscs Hit = " + PhysicsTestHelper.discHitCounter+
+              "\nMonkeys Hit = " + PhysicsTestHelper.monkeyHitCounter+
+              "\nTotal Hits = 0");
         hitText.setColor(ColorRGBA.Orange);
         hitText.setSize(guiFont.getCharSet().getRenderedSize());
         
@@ -142,7 +151,7 @@ public class Main extends SimpleApplication {
         btmpBulletsFired.setSize(guiFont.getCharSet().getRenderedSize());
         
         btmpBulletsFired.setLocalTranslation(1f , settings.getHeight() - 
-                hudText.getLineHeight() - hitText.getLineHeight() * 5 -
+                hudText.getLineHeight() - hitText.getLineHeight() * 6 -
                 btmpBulletsFired.getLineHeight(), 0f);
         guiNode.attachChild(btmpBulletsFired);
         
@@ -193,7 +202,7 @@ public class Main extends SimpleApplication {
         //sinbad.getControl(AIControl.class).setState(AIControl.State.Follow);
         sinbad.getControl(AIControl.class).setTargetList(targets);
         //sinbad.getControl(AIControl.class).setTarget(camNode);
-        
+        PhysicsTestHelper.camNode = camNode;
     }
     
     
@@ -203,9 +212,17 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         //TODO: add update code
+        int totalHits = (PhysicsTestHelper.ballHitCounter 
+                + PhysicsTestHelper.cubeHitCounter 
+                + PhysicsTestHelper.torusHitCounter
+                + PhysicsTestHelper.discHitCounter
+                + PhysicsTestHelper.monkeyHitCounter);
       hitText.setText("Balls Hit = " + PhysicsTestHelper.ballHitCounter +
               "\nCubes Hit = " + PhysicsTestHelper.cubeHitCounter+
-              "\nToruses Hit = " + PhysicsTestHelper.torusHitCounter);
+              "\nToruses Hit = " + PhysicsTestHelper.torusHitCounter+
+              "\nDiscs Hit = " + PhysicsTestHelper.discHitCounter+
+              "\nMonkeys Hit = " + PhysicsTestHelper.monkeyHitCounter+
+              "\nTotal Hits = " + totalHits);
       strBulletsFired = "Bullets Fired = " + PhysicsTestHelper.bulletsFired;
       btmpBulletsFired.setText(strBulletsFired);  
     }

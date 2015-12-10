@@ -74,6 +74,28 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
                         }
                     }
                     
+                    Iterator itDisc = PhysicsTestHelper.discs.iterator();
+                    while(itDisc.hasNext()){
+                        Spatial disc = (Spatial) itDisc.next();
+                        if((nodeA == disc) || (nodeB == disc)){
+                            PhysicsTestHelper.discHitCounter++;
+                            PhysicsTestHelper.space.remove(disc);                            
+                            disc.removeFromParent();
+                            itDisc.remove();                
+                        }
+                    }
+                    
+                    Iterator itMonkey = PhysicsTestHelper.monkeys.iterator();
+                    while(itMonkey.hasNext()){
+                        Spatial monkey = (Spatial) itMonkey.next();
+                        if((nodeA == monkey) || (nodeB == monkey)){
+                            PhysicsTestHelper.monkeyHitCounter++;
+                            PhysicsTestHelper.space.remove(monkey);                            
+                            monkey.removeFromParent();
+                            itMonkey.remove();                
+                        }
+                    }
+                    
                     PhysicsTestHelper.space.remove(bullet);
                     bullet.removeFromParent();
                     itB.remove();                    
@@ -87,7 +109,13 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
             }    
             if(PhysicsTestHelper.toruses.size() < 3){
                 PhysicsTestHelper.addTorus();
-            }        
+            }       
+            if(PhysicsTestHelper.discs.size() < 3){
+                PhysicsTestHelper.addDisc();
+            }           
+            if(PhysicsTestHelper.monkeys.size() < 1){
+                PhysicsTestHelper.addMonkey();
+            } 
          }
             
             

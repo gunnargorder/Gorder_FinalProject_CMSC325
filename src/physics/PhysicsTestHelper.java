@@ -12,23 +12,19 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.material.Material;
-import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
-import com.jme3.scene.shape.Cylinder;
-import com.jme3.scene.shape.Dome;
-import com.jme3.scene.shape.PQTorus;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
+import com.jme3.scene.CameraNode;
 import com.jme3.scene.Spatial;
 
 /**
@@ -58,6 +54,7 @@ public class PhysicsTestHelper {
     public static int ballnum = 0;
     public static int ballHitCounter = 0;
     public static int bulletsFired = 0;
+    public static CameraNode camNode;
     
     public static int cubenum = 0;
     public static int cubeHitCounter = 0;    
@@ -67,6 +64,13 @@ public class PhysicsTestHelper {
     public static int torusHitCounter = 0;    
     public static List<Spatial> toruses = new ArrayList<Spatial>();
     
+    public static int discnum = 0;
+    public static int discHitCounter = 0;    
+    public static List<Spatial> discs = new ArrayList<Spatial>();
+    
+    public static int monkeynum = 0;
+    public static int monkeyHitCounter = 0;    
+    public static List<Spatial> monkeys = new ArrayList<Spatial>();
     
     public static List<Spatial> getBalls(){
         return balls;
@@ -187,10 +191,15 @@ public class PhysicsTestHelper {
                 ballnum = i;
                 cubenum = i;
                 torusnum = i;
+                discnum = i;
                 BallTarget ball = new BallTarget(rootNode, assetManager, space, ballnum);
                 CubeTarget cube = new CubeTarget(rootNode, assetManager, space, cubenum);
                 TorusTarget torus = new TorusTarget(rootNode, assetManager, space, torusnum);
+                DiscTarget disc = new DiscTarget(rootNode, assetManager, space, discnum);
+                
         }
+        
+        MonkeyTarget monkey = new MonkeyTarget(rootNode, assetManager, space, discnum);
         
 
         CollisionDetector collide = new CollisionDetector();
@@ -250,4 +259,15 @@ public class PhysicsTestHelper {
         TorusTarget torus = new TorusTarget(rootNode, assetManager, space, torusnum);
         
     }
+    public static void addDisc(){
+        discnum++;
+        DiscTarget disc = new DiscTarget(rootNode, assetManager, space, discnum);
+        
+    }
+    public static void addMonkey(){
+        monkeynum++;
+        MonkeyTarget monkey = new MonkeyTarget(rootNode, assetManager, space, monkeynum);
+        
+    }
+    
 }
