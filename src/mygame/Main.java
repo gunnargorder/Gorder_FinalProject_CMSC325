@@ -43,6 +43,7 @@ public class Main extends SimpleApplication {
     private Vector3f normalGravity = new Vector3f(0, -9.81f, 0);
     BitmapText hitText;
     BitmapText btmpBulletsFired;
+    BitmapText btmpHighScore;
     public static Material lineMat;
     //public static List<Spatial> targets = new ArrayList<Spatial>();
     //added appstate variable to facilitate calling the hit counter
@@ -157,7 +158,16 @@ public class Main extends SimpleApplication {
                 btmpBulletsFired.getLineHeight(), 0f);
         guiNode.attachChild(btmpBulletsFired);
         
+        String strHighScore = getHighScore();
+        btmpHighScore = new BitmapText(myFont, true);
+        btmpHighScore.setText(strHighScore);
+        btmpHighScore.setColor(ColorRGBA.Orange);
+        btmpHighScore.setSize(guiFont.getCharSet().getRenderedSize());
         
+        btmpHighScore.setLocalTranslation(1f , settings.getHeight() - 
+                hudText.getLineHeight() - hitText.getLineHeight() * 6 -
+                btmpBulletsFired.getLineHeight() - btmpHighScore.getLineHeight(), 0f);
+        guiNode.attachChild(btmpHighScore);
         return scene;
     }
 
@@ -167,7 +177,11 @@ public class Main extends SimpleApplication {
     }
     
     
-    
+    private String getHighScore(){
+        
+        
+        return "High Score by GCG = 999 points - Replace return value";
+    }
     
     String strBulletsFired;
     
