@@ -48,7 +48,7 @@ public class AIControl extends AbstractControl{
         Idle,
         Follow;
     }
-    private State state = State.Idle;
+    private State state = State.Follow;
  
     @Override
     protected void controlUpdate(float tpf) {
@@ -61,12 +61,12 @@ public class AIControl extends AbstractControl{
             case Follow:
                 if(target != null){
                     Vector3f dirToTarget = target.getWorldTranslation().subtract(spatial.getWorldTranslation());
-                    dirToTarget.y = 0;
+                    //dirToTarget.y = 0;
                     dirToTarget.normalizeLocal();
                     viewDirection.set(dirToTarget);
                     
                     float distance = target.getWorldTranslation().distance(spatial.getWorldTranslation());
-                    if (distance > 20f){
+                    if (distance > 180.0f){
                         state = State.Idle;
                         target = null;
                         physicsCharacter.onAction("Stop", true, tpf);
@@ -127,14 +127,14 @@ public class AIControl extends AbstractControl{
     }
     
     
-    private float sightRange = 100f;
-    private float width = FastMath.HALF_PI;
-    private float angle = FastMath.HALF_PI;
-    private int height = 50;
+    private float sightRange = 180f;
+    private float width = FastMath.HALF_PI*2;
+    private float angle = FastMath.HALF_PI*2;
+    private int height = 140;
     private Geometry[] sightLines = new Geometry[30];
     private boolean debug = true;
     
-     private float hearingRange = 100f;
+     private float hearingRange = 180f;
     
     private boolean sense(){
         boolean foundTarget = false;
@@ -174,7 +174,7 @@ public class AIControl extends AbstractControl{
         Vector3f rayDirection = new Vector3f();
         int i = 0;
         boolean foundTarget = false;
-        for(float angleX = -angle; angleX < angle; angleX+= FastMath.HALF_PI * 0.1f){
+        for(float angleX = -angle; angleX < angle; angleX+= FastMath.HALF_PI * 2f){
             if(debug && sightLines[i] != null){
                 ((Node)getSpatial().getParent()).detachChild(sightLines[i]);
             }

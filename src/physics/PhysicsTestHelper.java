@@ -48,6 +48,7 @@ public class PhysicsTestHelper {
     public static List<Spatial> balls = new ArrayList<Spatial>();
     public static List<Spatial> walls = new ArrayList<Spatial>();
     public static List<Spatial> bullets = new ArrayList<Spatial>();
+    public static List<Spatial> targets = new ArrayList<Spatial>();
     public static Node rootNode;
     public static AssetManager assetManager;
     public static PhysicsSpace space;
@@ -266,8 +267,8 @@ public class PhysicsTestHelper {
     }
     public static void addMonkey(){
         monkeynum++;
-        MonkeyTarget monkey = new MonkeyTarget(rootNode, assetManager, space, monkeynum);
-        
+       MonkeyTarget monkey = new MonkeyTarget(rootNode, assetManager, space, monkeynum);
+       
     }
     
 }

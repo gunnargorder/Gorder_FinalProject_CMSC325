@@ -26,7 +26,7 @@ public class SoundEmitterControl extends AbstractControl{
             movementSpeed = Math.min(movementSpeed, maxSpeed);
             noiseEmitted = movementSpeed / maxSpeed;
         } else {
-            noiseEmitted = 0f;
+            noiseEmitted = 1f;
         }
         lastPosition.set(spatial.getWorldTranslation());
     }

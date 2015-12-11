@@ -11,6 +11,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import physics.PhysicsTestHelper;
 
 /**
  * Author: Prof Wireman
@@ -24,14 +25,14 @@ import com.jme3.scene.Node;
 public class AICharacterControl extends BetterCharacterControl 
         implements ActionListener, AnalogListener {
     
-    boolean forward = false, backward = false;
+    boolean forward = true, backward = false;
     protected Node head = new Node("Head");
     private float yaw = 0;
     protected float moveSpeed = 10;
     
     public AICharacterControl(float radius, float height, float mass) {
         super(radius, height, mass);
-        head.setLocalTranslation(0, 1.8f, 0);
+        head.setLocalTranslation(0, 2.8f, 0);
     }
     
     public void onAction(String action, boolean isPressed, float tpf) {
@@ -53,7 +54,6 @@ public class AICharacterControl extends BetterCharacterControl
     public void update(float tpf) {
         super.update(tpf);
         Vector3f modelForwardDir = spatial.getWorldRotation().mult(Vector3f.UNIT_Z);
-        
         walkDirection.set(0,0,0);
               
         if (forward) {

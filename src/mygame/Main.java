@@ -69,10 +69,12 @@ public class Main extends SimpleApplication {
         camNode.setControlDir(CameraControl.ControlDirection.CameraToSpatial);
         camNode.addControl(new SoundEmitterControl());
         getFlyByCamera().setMoveSpeed(45);
+        rootNode.attachChild(camNode);
+        PhysicsTestHelper.targets.add(camNode);
         PhysicsTestHelper.camNode = camNode;
         
-        setupCharacter(scene);
-        createAICharacter();
+        //setupCharacter(scene);
+        //createAICharacter();
     }
     
     private Node setupWorld(){
@@ -159,51 +161,12 @@ public class Main extends SimpleApplication {
         return scene;
     }
 
-    private void setupCharacter(Node scene){
-        
-    }
-    
+     
     private PhysicsSpace getPhysicsSpace() {
         return bulletAppState.getPhysicsSpace();
     }
     
-    private void createAICharacter() {
-       
-        // Load model, attach to character node
-       Node sinbad = (Node) assetManager.loadModel("Models/Jaime/Jaime.j3o");
-        
-        sinbad.setLocalScale(2.0f);
-        
-        //Node mainPlayer = createPlayerCharacter();
-        AICharacterControl physicsCharacter = new AICharacterControl(0.3f, 2.5f, 8f);
-        
-        sinbad.addControl(physicsCharacter);
-        getPhysicsSpace().add(physicsCharacter);
-        rootNode.attachChild(sinbad);
-        sinbad.addControl(new AIControl());
-        sinbad.addControl(new AIAnimationControl());
-        
-        CameraNode camNode = new CameraNode("CamNode", cam);
-        camNode.setControlDir(CameraControl.ControlDirection.CameraToSpatial);
-        
-        Geometry g = new Geometry("", new Box(1,2,1));
-        g.setName("Sinbad");
-        g.setModelBound(new BoundingSphere(5f, Vector3f.ZERO));
-        g.updateModelBound();
-        g.setMaterial(lineMat);
-        camNode.attachChild(g);
-        camNode.addControl(new SoundEmitterControl());
-        getFlyByCamera().setMoveSpeed(45);
-        rootNode.attachChild(camNode);
-        List<Spatial> targets = new ArrayList<Spatial>();
-        targets.add(camNode);
-        //targets.add(mainPlayer);
-        
-        //sinbad.getControl(AIControl.class).setState(AIControl.State.Follow);
-        sinbad.getControl(AIControl.class).setTargetList(targets);
-        //sinbad.getControl(AIControl.class).setTarget(camNode);
-        PhysicsTestHelper.camNode = camNode;
-    }
+    
     
     
     String strBulletsFired;
