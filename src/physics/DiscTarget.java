@@ -15,17 +15,14 @@ import com.jme3.scene.shape.Cylinder;
 import java.util.Random;
 
 /**
- *
- * @author Gunnar
- */
-/**
  * Author: Gunnar Gorder
- * Updated: 11/29/2015
- * CMSC 325, Project 2, UMUC Fall 2015
- * File: BallTarget.java
- * Description:  The BallTarget class creates ball object to act as targets
- * for the AI and adds them to the physics environment as well as the target
- * list field of the PhysicsTestHelper class.
+ * Updated: 12/12/2015
+ * CMSC 325, Final Project, UMUC Fall 2015
+ * File: DiscTarget.java
+ * Description:  The class creates a shape object to act as targets
+ * for the player and adds them to the physics environment as well as the respective
+ * target list in the PhysicsTestHelper class.  The construtor of the class is
+ * called when a shape has been destroyed and needs to be replaced
  */
 public class DiscTarget {
 

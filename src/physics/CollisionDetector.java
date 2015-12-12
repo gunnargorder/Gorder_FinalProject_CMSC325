@@ -13,24 +13,24 @@ import java.util.Iterator;
 
 /**
  * Author: Gunnar Gorder
- * Updated: 11/29/2015
- * CMSC 325, Project 2, UMUC Fall 2015
+ * Updated: 12/12/2015
+ * CMSC 325, Final Project, UMUC Fall 2015
  * File: CollisionDetector.java
  * Description:  The CollisionDetector class adds a collision detection object
  * to the physics envinronment.  This class is called by the PhysicsTestHelper 
- * class.  Additionally, this class tracks the ball collisions and updates the 
- * ballPosOutput string variable in the Main class.  At the same time, it outputs
- * collision data to the console for user review.
+ * class.  Additionally, this class is used to destroy and create object when 
+ * bullets collide with targets.
  */
 public class CollisionDetector extends GhostControl implements PhysicsCollisionListener {
     
     int ball0count = 0, ball1count = 0, ball2count = 0;
     
-    
+    //Add collision detector to physics space
     public CollisionDetector(){
         mygame.Main.bulletAppState.getPhysicsSpace().addCollisionListener(this);
     }
     
+    //When a collision occurs evaluate it
      public void collision(PhysicsCollisionEvent event) {
          Spatial nodeA = event.getNodeA();
          Spatial nodeB = event.getNodeB();
@@ -40,7 +40,8 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
          Iterator itB = PhysicsTestHelper.bullets.iterator();
          while(itB.hasNext()){
              Spatial bullet = (Spatial) itB.next();             
-                if((nodeA == bullet) || (nodeB == bullet)){  
+                if((nodeA == bullet) || (nodeB == bullet)){ 
+                    //If the bullet hits a ball remove the ball
                     Iterator it = PhysicsTestHelper.balls.iterator();
                     while(it.hasNext()){
                         Spatial ball = (Spatial) it.next();
@@ -51,7 +52,7 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
                             it.remove();                
                         }
                     }
-                    
+                    //If the bullet hits a cube remove the cube
                     Iterator itCube = PhysicsTestHelper.cubes.iterator();
                     while(itCube.hasNext()){
                         Spatial cube = (Spatial) itCube.next();
@@ -63,6 +64,7 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
                         }
                     }
                     
+                    //If the bullet hits a torus, remove it
                     Iterator itTor = PhysicsTestHelper.toruses.iterator();
                     while(itTor.hasNext()){
                         Spatial torus = (Spatial) itTor.next();
@@ -74,6 +76,7 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
                         }
                     }
                     
+                    //If the bullet hits a disc, remove it
                     Iterator itDisc = PhysicsTestHelper.discs.iterator();
                     while(itDisc.hasNext()){
                         Spatial disc = (Spatial) itDisc.next();
@@ -85,6 +88,7 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
                         }
                     }
                     
+                    //If the bullet hits the monkey, remove it
                     Iterator itMonkey = PhysicsTestHelper.monkeys.iterator();
                     while(itMonkey.hasNext()){
                         Spatial monkey = (Spatial) itMonkey.next();
@@ -101,6 +105,8 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
                     itB.remove();                    
                }
             } 
+            //Replace the object removed from the space to maintain the same
+            //number of elements in the field of play
             if(PhysicsTestHelper.balls.size() < 3){
                 PhysicsTestHelper.addBall();
             } 
@@ -116,10 +122,6 @@ public class CollisionDetector extends GhostControl implements PhysicsCollisionL
             if(PhysicsTestHelper.monkeys.size() < 1){
                 PhysicsTestHelper.addMonkey();
             } 
-         }
-            
-            
-            
-         
+         } 
     }
      

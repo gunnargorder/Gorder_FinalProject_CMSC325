@@ -27,12 +27,13 @@ import java.util.List;
 /**
  * Author: Prof Wireman
  * Update author: Gunnar Gorder
- * Updated: 11/29/2015
- * CMSC 325, Project 2, UMUC Fall 2015
+ * Updated: 12/12/2015
+ * CMSC 325, Final Prject, UMUC Fall 2015
  * File: AICharacterControl.java
  * Description:  The AIControl class controls an AI character and 
  * directs it toward an object identified in the taget list.  The class was
- * updated to increase the viewing angle and site distance of the AI.
+ * updated to increase the viewing angle and site distance of the AI.  The AI
+ * speed was increased as well.
  */
 public class AIControl extends AbstractControl{
 

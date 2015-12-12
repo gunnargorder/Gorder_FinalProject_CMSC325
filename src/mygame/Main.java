@@ -26,12 +26,14 @@ import javax.swing.JOptionPane;
 
 /**
  * Update author: Gunnar Gorder
- * Updated: 11/29/2015
+ * Updated: 12/12/2015
  * File: Main.java
- * CMSC 325, Project 2, UMUC Fall 2015
+ * CMSC 325, Final Project, UMUC Fall 2015
  * Description:  The main class is the driving class for the application
  * it sets up the environment and adds the characters and physics attributes
- * to the environment calling the other application classes as needed
+ * to the environment calling the other application classes as needed.  The
+ * Main class also reads the high score file and maintains the HUD with updated 
+ * score counts during game play.
  */
 public class Main extends SimpleApplication {
     
@@ -42,10 +44,21 @@ public class Main extends SimpleApplication {
     BitmapText btmpTimer;
     BitmapText btmpHighScores;
     public static Material lineMat;
-    //public static List<Spatial> targets = new ArrayList<Spatial>();
-    //added appstate variable to facilitate calling the hit counter
     private InputAppState appStateThis;
     public static String ballPosOutput ="";
+    private static long startTime, endTime, timeRemaining;
+    String strBulletsFired;
+    int totalHits;
+    BitmapText instructions;
+    String strInstructions = "Shoot as many objects as you can in one minute,\n"
+            + "but don't let the monkey get near you!\n"
+            + "He'll take away all of your points!";
+    boolean instrNotDisplayed = true;    
+    private static TreeMap<Integer, String> listHighScores = new TreeMap<Integer, String>();
+    private static int lowestHighScore = 0;
+    private static String strHighScores;
+    boolean highScoresNotDisplayed = true;    
+    boolean highScoreChecked = false;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -129,7 +142,7 @@ public class Main extends SimpleApplication {
         titleText.setLocalTranslation(1f , settings.getHeight() - hudText.getLineHeight(), 0f);
         guiNode.attachChild(titleText);
         
-        //Add hit counter to upper left, below title
+        //Add hit counters to upper left, below title
         hitText = new BitmapText(myFont, true);
         hitText.setText("Balls Hit = " + PhysicsTestHelper.ballHitCounter +
               "\nCubes Hit = " + PhysicsTestHelper.cubeHitCounter+
@@ -144,7 +157,7 @@ public class Main extends SimpleApplication {
         guiNode.attachChild(hitText);
         
         
-        
+        //Add timer to upper right of screen
         setTimer(1);
         btmpTimer = new BitmapText(myFont, true);
         btmpTimer.setText("Time Remaining - 3:00");
@@ -154,6 +167,7 @@ public class Main extends SimpleApplication {
         btmpTimer.setLocalTranslation(settings.getWidth()- btmpTimer.getLineWidth() - 50f , settings.getHeight(), 0f);
         guiNode.attachChild(btmpTimer);
         
+        //Add instructions to the screen on launch
         instructions = new BitmapText(myFont, true);
         instructions.setText(strInstructions);
         instructions.setColor(ColorRGBA.Orange);
@@ -161,6 +175,7 @@ public class Main extends SimpleApplication {
         
         instructions.setLocalTranslation((settings.getWidth()  - instructions.getLineWidth())/2 , settings.getHeight() / 2 - instructions.getLineHeight(), 0f);
         
+        //Prepare bitmap for high scores text
         btmpHighScores = new BitmapText(myFont, true);
         btmpHighScores.setText(strHighScores);
         btmpHighScores.setColor(ColorRGBA.Orange);
@@ -168,7 +183,10 @@ public class Main extends SimpleApplication {
         
         btmpHighScores.setLocalTranslation((settings.getWidth()  - btmpHighScores.getLineWidth())/2 , settings.getHeight() / 2 - btmpHighScores.getLineHeight(), 0f);
         
+        //Initialize the previous high score list
         initHighScoreList();
+        
+        //Display highest score recorded
         String strHighScore = "Highest Score = " + listHighScores.lastEntry().getKey();
         btmpHighScore = new BitmapText(myFont, true);
         btmpHighScore.setText(strHighScore);
@@ -187,6 +205,8 @@ public class Main extends SimpleApplication {
         return bulletAppState.getPhysicsSpace();
     }
     
+    //Update the game display and check the monkey's position relative to the 
+    //camera
     @Override
     public void simpleUpdate(float tpf) {
         //TODO: add update code
@@ -208,7 +228,8 @@ public class Main extends SimpleApplication {
       displayInstructions();
       displayHighScores();
       newHighScore();
-     
+     //Check the position of monkey and camera, if the distance between the two
+      //is less than a given amount, zero all scores
       Vector3f camcord = (Vector3f)PhysicsTestHelper.targets.get(0).getWorldTranslation().clone();
       Vector3f monkeycord = (Vector3f)PhysicsTestHelper.monkeys.get(0).getWorldTranslation().clone();
       camcord.y = 0;
@@ -224,6 +245,8 @@ public class Main extends SimpleApplication {
       
     }
     
+    //Initialize the high score list from the HighScore.txt file in the working
+    //directory.
     private static void initHighScoreList(){
          try {
             File highScoreFile = new File("HighScores.txt");
@@ -256,16 +279,13 @@ public class Main extends SimpleApplication {
         lowestHighScore = listHighScores.firstKey();
     }
     
-        
-        
-    
-    
-    private static long startTime, endTime, timeRemaining;
-
+    //Set the timer length
     private void setTimer(int minutes){
         startTime = System.currentTimeMillis();
         endTime = startTime + (minutes * 60 * 1000);
     }
+    
+    //calculate time remaining on timer
     private String getTimerTime(){
         String strTimer = "Time Remaining - ";
         
@@ -284,14 +304,7 @@ public class Main extends SimpleApplication {
         return strTimer;
     }
     
-    String strBulletsFired;
-    int totalHits;
-    BitmapText instructions;
-    String strInstructions = "Shoot as many objects as you can in one minute,\n"
-            + "but don't let the monkey get near you!\n"
-            + "He'll take away all of your points!";
-    boolean instrNotDisplayed = true;
-    
+    //Display the isntructions for the first 10 seconds of game play
     private void displayInstructions(){
         int timeToDisplayInst = 10000;
         if(System.currentTimeMillis() - startTime < timeToDisplayInst && instrNotDisplayed){
@@ -303,11 +316,8 @@ public class Main extends SimpleApplication {
         }
     }
     
-    private static TreeMap<Integer, String> listHighScores = new TreeMap<Integer, String>();
-    private static int lowestHighScore = 0;
+    //Get the high score text to display
     private String getHighScores(){
-       
-        
         String highScores ="";
         for(Map.Entry<Integer, String> entry : listHighScores.entrySet()) {
             highScores = "" + entry.getValue() +" - "+entry.getKey()+"\n" + highScores;
@@ -318,8 +328,7 @@ public class Main extends SimpleApplication {
         return strHighScores;
     }
     
-    String strHighScores;
-    boolean highScoresNotDisplayed = true;
+    //add the high score display to the screen when the timer expires
     private void displayHighScores(){
         if (timeRemaining < 0 && highScoresNotDisplayed) {
             highScoresNotDisplayed = false;
@@ -327,7 +336,9 @@ public class Main extends SimpleApplication {
             guiNode.attachChild(btmpHighScores);
         }
     }
-    boolean highScoreChecked = false;
+    
+    //if the player's score is higher than the lowest recoreded high score, 
+    //ask for their initials and record their score
     private void newHighScore(){
         
         //if the player score is greater than any other high score and time remainings is > 0
@@ -335,7 +346,13 @@ public class Main extends SimpleApplication {
         if((timeRemaining < 0)&& (!highScoreChecked)){
             highScoreChecked = true;
             if(lowestHighScore < totalHits){
-                 String initials = JOptionPane.showInputDialog(null, "New High Score!\nEnter your initials", null);
+                String initials = "";
+                
+                //If the player enters anything except for 3 characters, ask again
+                do{
+                 initials = JOptionPane.showInputDialog(null, "New High Score!\nEnter your 3 character initials", null);
+                }while((initials.length()<3) || (initials.length()>3) || (initials.contains(" ")));
+                
                  listHighScores.put(totalHits, initials);
                  while(listHighScores.size()>5){
                      listHighScores.pollFirstEntry();                     

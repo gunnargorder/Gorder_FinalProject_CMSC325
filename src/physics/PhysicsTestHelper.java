@@ -29,11 +29,12 @@ import com.jme3.scene.Spatial;
 
 /**
  * Update author: Gunnar Gorder
- * Updated: 11/29/2015
- * CMSC 325, Project 2, UMUC Fall 2015
+ * Updated: 12/12/2015
+ * CMSC 325, Final Project, UMUC Fall 2015
  * File: PhysicsTestHelper.java
  * Description:  The PhysicsTestHelper class creates the specified
- * physics and environmental objects to be added to the scene.
+ * physics and environmental objects to be added to the scene. It also maintains
+ * lists of the objects added to the space and hit counters for the objects types.
  */
 public class PhysicsTestHelper {
 
@@ -80,7 +81,7 @@ public class PhysicsTestHelper {
         return walls;
     }
 
-    //createPhysicsTestWorld creates and adds moveable and imoveable objects
+    //createPhysicsTestWorld creates and adds objects
     public static void createPhysicsTestWorld(Node rootNode, AssetManager assetManager, PhysicsSpace space) {
         AmbientLight light = new AmbientLight();
         light.setColor(ColorRGBA.LightGray);
@@ -187,7 +188,7 @@ public class PhysicsTestHelper {
         space.add(lidGeometry);
         walls.add(lidGeometry);
         
-        //Creates bouncing ball targets
+        //Creates object targets
         for (int i = 0; i < 3; i++) {   
                 ballnum = i;
                 cubenum = i;
@@ -200,9 +201,10 @@ public class PhysicsTestHelper {
                 
         }
         
+        //Creates monkey predator character
         MonkeyTarget monkey = new MonkeyTarget(rootNode, assetManager, space, discnum);
         
-
+        //Listen for collisions
         CollisionDetector collide = new CollisionDetector();
     }
 
@@ -245,26 +247,34 @@ public class PhysicsTestHelper {
         app.getInputManager().addListener(actionListener, "shoot");
     }
     
+    //Add a ball target to the space
     public static void addBall(){
         ballnum++;
         BallTarget ball = new BallTarget(rootNode, assetManager, space, ballnum);
         
     }
+    
+    //Add a cube target to the space
     public static void addCube(){
         cubenum++;
         CubeTarget ball = new CubeTarget(rootNode, assetManager, space, cubenum);
         
     }
+    
+    //Add a torus (donut) target to the space
     public static void addTorus(){
         torusnum++;
         TorusTarget torus = new TorusTarget(rootNode, assetManager, space, torusnum);
         
     }
+    
+    //Add a disc (cylinder) target to the space
     public static void addDisc(){
         discnum++;
-        DiscTarget disc = new DiscTarget(rootNode, assetManager, space, discnum);
-        
+        DiscTarget disc = new DiscTarget(rootNode, assetManager, space, discnum);        
     }
+    
+    //Add a monkey character to the space
     public static void addMonkey(){
         monkeynum++;
        MonkeyTarget monkey = new MonkeyTarget(rootNode, assetManager, space, monkeynum);

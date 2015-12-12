@@ -27,13 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * Update author: Gunnar Gorder
- * Updated: 11/29/2015
- * CMSC 325, Project 2, UMUC Fall 2015
+ * Updated: 12/12/2015
+ * CMSC 325, Final Project, UMUC Fall 2015
  * File: InputAppState.java
  * Description:  The InputAppState class provides the mapping of the 
  * user input actions to their respective events allowing for the user
  * actions to be reflected by changes in the game.  This class was updated to
- * include a hit counter for target object collisions.
+ * include a hit counter for target object collisions. Removed Print command for
+ * the Final Project.
  */
 public class InputAppState extends AbstractAppState implements AnalogListener, ActionListener {
     
@@ -59,11 +60,10 @@ public class InputAppState extends AbstractAppState implements AnalogListener, A
         StrafeRight,
         MoveForward,
         MoveBackward,
-        Fire,
-        Print;
+        Fire;
     }
     
-    private String[] mappingNames = new String[]{InputMapping.LeanFree.name(), InputMapping.LeanLeft.name(), InputMapping.LeanRight.name(), InputMapping.RotateLeft.name(), InputMapping.RotateRight.name(), InputMapping.LookUp.name(), InputMapping.LookDown.name(), InputMapping.StrafeLeft.name(), InputMapping.StrafeRight.name(), InputMapping.MoveForward.name(), InputMapping.MoveBackward.name(), InputMapping.Fire.name(), InputMapping.Print.name()};
+    private String[] mappingNames = new String[]{InputMapping.LeanFree.name(), InputMapping.LeanLeft.name(), InputMapping.LeanRight.name(), InputMapping.RotateLeft.name(), InputMapping.RotateRight.name(), InputMapping.LookUp.name(), InputMapping.LookDown.name(), InputMapping.StrafeLeft.name(), InputMapping.StrafeRight.name(), InputMapping.MoveForward.name(), InputMapping.MoveBackward.name(), InputMapping.Fire.name()};
     
     
     @Override
