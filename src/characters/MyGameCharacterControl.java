@@ -55,26 +55,10 @@ public class MyGameCharacterControl extends BetterCharacterControl
             jump();
         } else if (action.equals("Duck")) {
             setDucked(isPressed);
-        } else if(action.equals("Print")){
-            if(isPressed){
-                printData();
-            }
-        }
+        } 
     }
     
-    public void printData(){
-        
-        try{
-            PrintWriter writer = new PrintWriter("BallPositionData.txt", "ASCII");
-            writer.println(mygame.Main.ballPosOutput);
-            writer.close();    
-            System.out.println("Printed data to file");
-        } catch (Exception e) {
-            System.out.println("Printing data to file failed\n" +
-                    e.toString());
-        }
-    }
-    
+       
     public void onAnalog(String name, float value, float tpf) {
         if (name.equals("RotateLeft")) {
             rotate(tpf * value);

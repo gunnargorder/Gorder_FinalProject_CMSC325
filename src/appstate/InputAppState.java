@@ -87,7 +87,7 @@ public class InputAppState extends AbstractAppState implements AnalogListener, A
         inputManager.addMapping(InputMapping.StrafeRight.name(), new KeyTrigger(KeyInput.KEY_K), new KeyTrigger(KeyInput.KEY_RIGHT));
         inputManager.addMapping(InputMapping.MoveForward.name(), new KeyTrigger(KeyInput.KEY_U), new KeyTrigger(KeyInput.KEY_UP));
         inputManager.addMapping(InputMapping.MoveBackward.name(), new KeyTrigger(KeyInput.KEY_J), new KeyTrigger(KeyInput.KEY_DOWN));
-        inputManager.addMapping(InputMapping.Print.name(), new KeyTrigger(KeyInput.KEY_P));
+        
         inputManager.addListener(this, mappingNames);
         
         inputManager.addMapping(InputMapping.Fire.name(), new MouseButtonTrigger(MouseInput.BUTTON_LEFT));

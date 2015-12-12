@@ -1,0 +1,5 @@
+8 - aaa
+14 - www
+17 - GCG
+19 - gcg
+25 - cgc

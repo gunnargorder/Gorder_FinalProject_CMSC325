@@ -1,15 +1,10 @@
 package mygame;
 
-import AI.AIControl;
 import AI.SoundEmitterControl;
-import animations.AIAnimationControl;
 import appstate.InputAppState;
-import characters.AICharacterControl;
 import physics.PhysicsTestHelper;
 import characters.MyGameCharacterControl;
-import com.jme3.app.FlyCamAppState;
 import com.jme3.app.SimpleApplication;
-import com.jme3.bounding.BoundingSphere;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.font.BitmapFont;
@@ -19,14 +14,15 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.CameraNode;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.control.CameraControl;
-import com.jme3.scene.shape.Box;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
+import javax.swing.JOptionPane;
 
 /**
  * Update author: Gunnar Gorder
@@ -42,8 +38,9 @@ public class Main extends SimpleApplication {
     public static BulletAppState bulletAppState;
     private Vector3f normalGravity = new Vector3f(0, -9.81f, 0);
     BitmapText hitText;
-    BitmapText btmpBulletsFired;
     BitmapText btmpHighScore;
+    BitmapText btmpTimer;
+    BitmapText btmpHighScores;
     public static Material lineMat;
     //public static List<Spatial> targets = new ArrayList<Spatial>();
     //added appstate variable to facilitate calling the hit counter
@@ -139,57 +136,61 @@ public class Main extends SimpleApplication {
               "\nToruses Hit = " + PhysicsTestHelper.torusHitCounter+
               "\nDiscs Hit = " + PhysicsTestHelper.discHitCounter+
               "\nMonkeys Hit = " + PhysicsTestHelper.monkeyHitCounter+
-              "\nTotal Hits = 0");
+              "\nYour Score = 0");
         hitText.setColor(ColorRGBA.Orange);
         hitText.setSize(guiFont.getCharSet().getRenderedSize());
         
         hitText.setLocalTranslation(1f , settings.getHeight() - hudText.getLineHeight() - hitText.getLineHeight(), 0f);
         guiNode.attachChild(hitText);
         
-        btmpBulletsFired = new BitmapText(myFont, true);
         
-                
-        btmpBulletsFired.setText(strBulletsFired);
-        btmpBulletsFired.setColor(ColorRGBA.Orange);
-        btmpBulletsFired.setSize(guiFont.getCharSet().getRenderedSize());
         
-        btmpBulletsFired.setLocalTranslation(1f , settings.getHeight() - 
-                hudText.getLineHeight() - hitText.getLineHeight() * 6 -
-                btmpBulletsFired.getLineHeight(), 0f);
-        guiNode.attachChild(btmpBulletsFired);
+        setTimer(1);
+        btmpTimer = new BitmapText(myFont, true);
+        btmpTimer.setText("Time Remaining - 3:00");
+        btmpTimer.setColor(ColorRGBA.Orange);
+        btmpTimer.setSize(30f);
         
-        String strHighScore = getHighScore();
+        btmpTimer.setLocalTranslation(settings.getWidth()- btmpTimer.getLineWidth() - 50f , settings.getHeight(), 0f);
+        guiNode.attachChild(btmpTimer);
+        
+        instructions = new BitmapText(myFont, true);
+        instructions.setText(strInstructions);
+        instructions.setColor(ColorRGBA.Orange);
+        instructions.setSize(guiFont.getCharSet().getRenderedSize());
+        
+        instructions.setLocalTranslation((settings.getWidth()  - instructions.getLineWidth())/2 , settings.getHeight() / 2 - instructions.getLineHeight(), 0f);
+        
+        btmpHighScores = new BitmapText(myFont, true);
+        btmpHighScores.setText(strHighScores);
+        btmpHighScores.setColor(ColorRGBA.Orange);
+        btmpHighScores.setSize(guiFont.getCharSet().getRenderedSize());
+        
+        btmpHighScores.setLocalTranslation((settings.getWidth()  - btmpHighScores.getLineWidth())/2 , settings.getHeight() / 2 - btmpHighScores.getLineHeight(), 0f);
+        
+        initHighScoreList();
+        String strHighScore = "Highest Score = " + listHighScores.lastEntry().getKey();
         btmpHighScore = new BitmapText(myFont, true);
         btmpHighScore.setText(strHighScore);
         btmpHighScore.setColor(ColorRGBA.Orange);
         btmpHighScore.setSize(guiFont.getCharSet().getRenderedSize());
         
         btmpHighScore.setLocalTranslation(1f , settings.getHeight() - 
-                hudText.getLineHeight() - hitText.getLineHeight() * 6 -
-                btmpBulletsFired.getLineHeight() - btmpHighScore.getLineHeight(), 0f);
+                hudText.getLineHeight() - hitText.getLineHeight() * 7 -
+                btmpHighScore.getLineHeight(), 0f);
         guiNode.attachChild(btmpHighScore);
+        
         return scene;
     }
-
      
     private PhysicsSpace getPhysicsSpace() {
         return bulletAppState.getPhysicsSpace();
     }
     
-    
-    private String getHighScore(){
-        
-        
-        return "High Score by GCG = 999 points - Replace return value";
-    }
-    
-    String strBulletsFired;
-    
-    //Update hit counter as required
     @Override
     public void simpleUpdate(float tpf) {
         //TODO: add update code
-        int totalHits = (PhysicsTestHelper.ballHitCounter 
+        totalHits = (PhysicsTestHelper.ballHitCounter 
                 + PhysicsTestHelper.cubeHitCounter 
                 + PhysicsTestHelper.torusHitCounter
                 + PhysicsTestHelper.discHitCounter
@@ -199,11 +200,171 @@ public class Main extends SimpleApplication {
               "\nToruses Hit = " + PhysicsTestHelper.torusHitCounter+
               "\nDiscs Hit = " + PhysicsTestHelper.discHitCounter+
               "\nMonkeys Hit = " + PhysicsTestHelper.monkeyHitCounter+
-              "\nTotal Hits = " + totalHits);
-      strBulletsFired = "Bullets Fired = " + PhysicsTestHelper.bulletsFired;
-      btmpBulletsFired.setText(strBulletsFired);  
+              "\nBullets Fired = " + PhysicsTestHelper.bulletsFired+
+              "\nYour Score = " + totalHits);
+        
+      btmpTimer.setText(getTimerTime());
+      
+      displayInstructions();
+      displayHighScores();
+      newHighScore();
+     
+      Vector3f camcord = (Vector3f)PhysicsTestHelper.targets.get(0).getWorldTranslation().clone();
+      Vector3f monkeycord = (Vector3f)PhysicsTestHelper.monkeys.get(0).getWorldTranslation().clone();
+      camcord.y = 0;
+      monkeycord.y = 0;
+      if(camcord.distance(monkeycord)<4f){
+          PhysicsTestHelper.ballHitCounter = 0;
+          PhysicsTestHelper.cubeHitCounter = 0;
+          PhysicsTestHelper.torusHitCounter = 0;
+          PhysicsTestHelper.discHitCounter = 0;
+          PhysicsTestHelper.monkeyHitCounter = 0;
+      }
+      
+      
     }
+    
+    private static void initHighScoreList(){
+         try {
+            File highScoreFile = new File("HighScores.txt");
+            Scanner sc = new Scanner(highScoreFile);
+            if (sc.hasNext()) {
+                    while (sc.hasNextLine()) {
+                            Scanner sc2 = new Scanner(sc.nextLine());
+                            sc2.useDelimiter(" - ");
+                            if (sc2.hasNext()) {
+                                    Integer score;
+                                    String initials;						
+                                    score = Integer.parseInt(sc2.next());
+                                    initials = sc2.next();
+                                    listHighScores.put(score, initials);						
+                            }
+                            sc2.close();
+                    }
+            }else{
+                   System.out.println(
+                                "The necessary high score file appears empty.\n"                                
+                                + "The program will now close.");
+                    System.exit(0);
+            }
+            sc.close();
+        } catch (Exception e) {
+            System.out.println("High score file not found or error reading file!");
+            System.out.println(e);
+        }
+        
+        lowestHighScore = listHighScores.firstKey();
+    }
+    
+        
+        
+    
+    
+    private static long startTime, endTime, timeRemaining;
 
+    private void setTimer(int minutes){
+        startTime = System.currentTimeMillis();
+        endTime = startTime + (minutes * 60 * 1000);
+    }
+    private String getTimerTime(){
+        String strTimer = "Time Remaining - ";
+        
+        timeRemaining = (endTime - System.currentTimeMillis());
+        
+        if(timeRemaining < 1){
+            strTimer = "Times Up!";
+        } else {        
+            strTimer += ""+String.format("%d : %d ", 
+                TimeUnit.MILLISECONDS.toMinutes( timeRemaining),
+                TimeUnit.MILLISECONDS.toSeconds(timeRemaining) - 
+                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeRemaining)));           
+        }
+        
+        
+        return strTimer;
+    }
+    
+    String strBulletsFired;
+    int totalHits;
+    BitmapText instructions;
+    String strInstructions = "Shoot as many objects as you can in one minute,\n"
+            + "but don't let the monkey get near you!\n"
+            + "He'll take away all of your points!";
+    boolean instrNotDisplayed = true;
+    
+    private void displayInstructions(){
+        int timeToDisplayInst = 10000;
+        if(System.currentTimeMillis() - startTime < timeToDisplayInst && instrNotDisplayed){
+            instrNotDisplayed = false;
+            guiNode.attachChild(instructions);
+        } else if (System.currentTimeMillis() - startTime > timeToDisplayInst && !instrNotDisplayed) {
+            instrNotDisplayed = true;
+            instructions.removeFromParent();
+        }
+    }
+    
+    private static TreeMap<Integer, String> listHighScores = new TreeMap<Integer, String>();
+    private static int lowestHighScore = 0;
+    private String getHighScores(){
+       
+        
+        String highScores ="";
+        for(Map.Entry<Integer, String> entry : listHighScores.entrySet()) {
+            highScores = "" + entry.getValue() +" - "+entry.getKey()+"\n" + highScores;
+        }
+        highScores = "\nPrevious High Scores:\n" + highScores;
+        strHighScores = highScores;
+        strHighScores = "Your score = "+ totalHits +"\n" + strHighScores;        
+        return strHighScores;
+    }
+    
+    String strHighScores;
+    boolean highScoresNotDisplayed = true;
+    private void displayHighScores(){
+        if (timeRemaining < 0 && highScoresNotDisplayed) {
+            highScoresNotDisplayed = false;
+            btmpHighScores.setText(getHighScores());
+            guiNode.attachChild(btmpHighScores);
+        }
+    }
+    boolean highScoreChecked = false;
+    private void newHighScore(){
+        
+        //if the player score is greater than any other high score and time remainings is > 0
+        //then request the users initials and record their score
+        if((timeRemaining < 0)&& (!highScoreChecked)){
+            highScoreChecked = true;
+            if(lowestHighScore < totalHits){
+                 String initials = JOptionPane.showInputDialog(null, "New High Score!\nEnter your initials", null);
+                 listHighScores.put(totalHits, initials);
+                 while(listHighScores.size()>5){
+                     listHighScores.pollFirstEntry();                     
+                 }
+                 lowestHighScore = listHighScores.firstKey();
+        
+                String highScores ="";
+                for(Map.Entry<Integer, String> entry : listHighScores.entrySet()) {
+                    highScores = "" + entry.getValue() +" - "+entry.getKey()+"\n\r" + highScores;
+                }
+                
+                strHighScores = "\nPrevious High Scores:\n" + highScores;
+                strHighScores = "Your score = "+ totalHits +"\n" + strHighScores;
+                btmpHighScores.setText(strHighScores);
+                
+                try{
+                PrintWriter writer = new PrintWriter("HighScores.txt", "ASCII");
+                for(Map.Entry<Integer, String> entry : listHighScores.entrySet()) {
+                    writer.println(entry.getKey() +" - "+entry.getValue());
+                }
+                writer.close();
+                }catch(Exception e){
+                    System.out.println("Error writing to 'HighScores.txt'");
+                    System.out.println(e);
+                }
+            }
+        }
+    }
+    
     @Override
     public void simpleRender(RenderManager rm) {
         //TODO: add render code
